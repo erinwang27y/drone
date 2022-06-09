@@ -1,7 +1,16 @@
+from turtle import width
 from anyio import current_time
 import cv2
 import numpy as np
 import time
+
+import math
+
+
+
+
+
+
 
 np.random.seed(20)
 class Detector:
@@ -47,8 +56,9 @@ class Detector:
             fps = 1/(currentTime - startTime)
             startTime = currentTime
 
-            classLabelIDs, confidences, bboxs = self.net.detect(image, confThreshold = 0.4)
+            classLabelIDs, confidences, bboxs = self.net.detect(image, confThreshold = 0.5)
             bboxs = list(bboxs)
+
             confidences = list(np.array(confidences).reshape(1,-1)[0])
             confidences = list(map(float,confidences))
             bboxIdx = cv2.dnn.NMSBoxes(bboxs, confidences, score_threshold = 0.5, nms_threshold = 0.2)
@@ -64,6 +74,11 @@ class Detector:
                     displayText = "{}:{:.2f}".format(classLabel, classConfidence)
 
                     x,y,w,h = bbox
+                    print("bounding boxes coordinates:",x,y,x+w,y+h)
+                    print(classLabel, classConfidence)
+                    print("width:", w, "; height: ", h)
+                    print("\n")
+                    
                     cv2.rectangle(image, (x,y), (x+w,y+h), color = classColor, thickness = 1)
                     cv2.putText(image,displayText, (x,y-10), cv2.FONT_HERSHEY_PLAIN, 1, classColor,2)
 
@@ -90,3 +105,5 @@ class Detector:
             (success,image) = cap.read()
 
         cv2.destroyAllWindows()
+
+
