@@ -7,11 +7,6 @@ import time
 import math
 
 
-
-
-
-
-
 np.random.seed(20)
 class Detector:
     def __init__(self, videoPath, configPath, modelPath, classesPath):
@@ -106,4 +101,10 @@ class Detector:
 
         cv2.destroyAllWindows()
 
-
+    # def estimateSpeed(location1, location2):
+    #     d_pixels = math.sqrt(math.pow(location2[0]-location1[0], 2) + math.pow(location2[1]-location1[1], 2))
+    #     ppm = 8.8 #pixel per meter
+    #     d_meters = d_pixels/ppm
+    #     fps = 18
+    #     speed = d_meters * fps * 3.6
+    #     return speed
